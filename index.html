@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/output.css">
+</head>
+
+<body class="bg-gray-200 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded shadow-md">
+        <h1 class="text-3xl font-semibold text-center mb-6">Tic Tac Toe</h1>
+        <div class="grid grid-cols-3 gap-2 md:gap-4 text-center">
+            <div class="bg-blue-200 h-16 md:h-24 w-16 md:w-24 flex items-center justify-center text-4xl rounded-md box"
+                onclick="clicked(this)"></div>
+            <div class="bg-blue-200 h-16 md:h-24 w-16 md:w-24 flex items-center justify-center text-4xl rounded-md box"
+                onclick="clicked(this)"></div>
+            <div class="bg-blue-200 h-16 md:h-24 w-16 md:w-24 flex items-center justify-center text-4xl rounded-md box"
+                onclick="clicked(this)"></div>
+            <div class="bg-blue-200 h-16 md:h-24 w-16 md:w-24 flex items-center justify-center text-4xl rounded-md box"
+                onclick="clicked(this)"></div>
+            <div class="bg-blue-200 h-16 md:h-24 w-16 md:w-24 flex items-center justify-center text-4xl rounded-md box"
+                onclick="clicked(this)"></div>
+            <div class="bg-blue-200 h-16 md:h-24 w-16 md:w-24 flex items-center justify-center text-4xl rounded-md box"
+                onclick="clicked(this)"></div>
+            <div class="bg-blue-200 h-16 md:h-24 w-16 md:w-24 flex items-center justify-center text-4xl rounded-md box"
+                onclick="clicked(this)"></div>
+            <div class="bg-blue-200 h-16 md:h-24 w-16 md:w-24 flex items-center justify-center text-4xl rounded-md box"
+                onclick="clicked(this)"></div>
+            <div class="bg-blue-200 h-16 md:h-24 w-16 md:w-24 flex items-center justify-center text-4xl rounded-md box"
+                onclick="clicked(this)"></div>
+        </div>
+        <div class="bg-green-200 flex items-center justify-center rounded-md text-2xl p-4 my-4 cursor-pointer" id="reset-btn">Reset
+        </div>
+        <h1 class="text-3xl font-semibold text-center my-4" id="winner"></h1>
+    </div>
+    <script>
+        const buttons = document.querySelectorAll(".box");
+        const reset = document.querySelector("#reset-btn");
+
+        const winConditions = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ]
+
+        function checkWinner() {
+            for (let winCondition of winConditions) {
+                if (
+                    buttons[winCondition[0]].textContent !== "" &&
+                    buttons[winCondition[0]].textContent === buttons[winCondition[1]].textContent &&
+                    buttons[winCondition[0]].textContent === buttons[winCondition[2]].textContent
+                ) {
+                    buttons[winCondition[0]].classList.add("text-green-600");
+                    buttons[winCondition[1]].classList.add("text-green-600");
+                    buttons[winCondition[2]].classList.add("text-green-600");
+                    return true;
+                }
+            }
+            return false;
+        }
+        function drawn(){
+            for(button of buttons){
+                if(button.textContent=="") return false;
+            }
+            return true;
+        }
+
+        const winner = document.querySelector("#winner");
+
+        function clicked(button) {
+            console.log("clicked");
+            if (button.textContent === "") {
+                button.textContent = "X";
+                if(checkWinner()){
+                    winner.textContent="Winner is X!";
+                }
+                else if(drawn()){
+                    winner.textContent="Match Drawn!";
+                }
+                else{
+                    let O=Math.ceil(Math.random()*9)-1;
+                    while(buttons[O].textContent!=""){
+                        O=Math.ceil(Math.random()*9)-1;
+                    }
+                    buttons[O].textContent="O";
+                    if(checkWinner()){
+                        winner.textContent="Winner is O!";
+                    }
+                }
+            }
+
+            reset.addEventListener("click", ()=>{
+                winner.textContent="";
+                for(button of buttons){
+                    button.textContent="";
+                    button.classList.remove("text-green-600");
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>
